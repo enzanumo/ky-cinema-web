@@ -29,9 +29,31 @@ func NewRouter() *gin.Engine {
 	})
 
 	r.GET("/movies", api.Movies)
-	r.POST("/movies", api.Stub)
 
 	r.GET("/movies/:id", api.Stub)
+	r.GET("/movies/:id/schedule", api.Stub)
+
+	r.POST("/seats", api.Stub)
+
+	self := r.Group("/")
+
+	self.POST("/orders/create", api.Stub)
+	self.POST("/orders/pay", api.Stub)
+	self.GET("/orders", api.Stub)
+	self.GET("/orders/details/:id", api.Stub)
+
+	self.GET("/user/info")
+
+	adm := r.Group("/")
+
+	adm.POST("/movies", api.Stub)
+	adm.GET("/schedule", api.Stub)
+	adm.POST("/schedule", api.Stub)
+	adm.POST("/schedule/promotion", api.Stub)
+
+	adm.GET("/user", api.Stub)
+	adm.POST("/user", api.Stub)
+	adm.POST("/user/:id", api.Stub)
 
 	return e
 }
