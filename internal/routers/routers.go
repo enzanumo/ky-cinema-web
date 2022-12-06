@@ -42,7 +42,7 @@ func NewRouter() *gin.Engine {
 	self.GET("/orders", api.Stub)
 	self.GET("/orders/details/:id", api.Stub)
 
-	self.GET("/user/info")
+	self.GET("/user/info", api.Stub)
 
 	adm := r.Group("/")
 

@@ -2,16 +2,24 @@ package main
 
 import (
 	"fmt"
+	"github.com/enzanumo/ky-theater-system/internal/conf"
 	"github.com/enzanumo/ky-theater-system/internal/routers"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
 )
 
+func init() {
+	err := conf.SetupDBEngine()
+	if err != nil {
+		panic(err)
+	}
+}
+
 func main() {
 	gin.SetMode("debug")
 
-	addr := "0.0.0.0:9091"
+	addr := "127.0.0.1:9091"
 
 	router := routers.NewRouter()
 	s := &http.Server{
