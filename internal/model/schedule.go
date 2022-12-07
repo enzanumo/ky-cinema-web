@@ -4,12 +4,12 @@ import "time"
 
 type Schedule struct {
 	StartAt time.Time `gorm:"uniqueIndex:schedule_unique"`
-	Room    *Room     `gorm:"uniqueIndex:schedule_unique"`
+	RoomID  int       `gorm:"uniqueIndex:schedule_unique"`
 }
 
 type PlannedSchedule struct {
-	*Schedule
-	Movie     *Movie
+	Schedule
+	MovieID   int
 	EndAt     time.Time
 	BasePrice Price
 }

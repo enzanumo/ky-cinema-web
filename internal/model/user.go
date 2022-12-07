@@ -2,8 +2,14 @@ package model
 
 import "gorm.io/gorm"
 
+const (
+	UserStatusNormal int = iota + 1
+	UserStatusClosed
+)
+
 type User struct {
 	*Model
+	Nickname string `json:"nickname"`
 	Username string `json:"username"`
 	Phone    string `json:"phone"`
 	Password string `json:"password"`
@@ -13,23 +19,36 @@ type User struct {
 	IsAdmin  bool   `json:"is_admin"`
 }
 
-func (u *User) Create(db *gorm.DB) (*User, error) {
-	err := db.Create(&u).Error
-	return u, err
+type UserFormated struct {
+	ID       int64  `json:"id"`
+	Nickname string `json:"nickname"`
+	Username string `json:"username"`
+	Status   int    `json:"status"`
+	IsAdmin  bool   `json:"is_admin"`
 }
 
-func (u *User) Update(db *gorm.DB) error {
-	return db.Model(&User{}).Where("id = ?", u.Model.ID, 0).Save(u).Error
+func (u *User) Format() *UserFormated {
+	if u.Model != nil {
+		return &UserFormated{
+			ID:       u.ID,
+			Nickname: u.Nickname,
+			Username: u.Username,
+			Status:   u.Status,
+			IsAdmin:  u.IsAdmin,
+		}
+	}
+
+	return nil
 }
 
 func (u *User) Get(db *gorm.DB) (*User, error) {
 	var user User
 	if u.Model != nil && u.Model.ID > 0 {
-		db = db.Where("id= ?", u.Model.ID, 0)
+		db = db.Where("id= ? AND is_del = ?", u.Model.ID, 0)
 	} else if u.Phone != "" {
-		db = db.Where("phone = ?", u.Phone, 0)
+		db = db.Where("phone = ? AND is_del = ?", u.Phone, 0)
 	} else {
-		db = db.Where("username = ?", u.Username, 0)
+		db = db.Where("username = ? AND is_del = ?", u.Username, 0)
 	}
 
 	err := db.First(&user).Error
@@ -54,9 +73,19 @@ func (u *User) List(db *gorm.DB, conditions *ConditionsT, offset, limit int) ([]
 		}
 	}
 
-	if err = db.Find(&users).Error; err != nil {
+	if err = db.Where("is_del = ?", 0).Find(&users).Error; err != nil {
 		return nil, err
 	}
 
 	return users, nil
+}
+
+func (u *User) Create(db *gorm.DB) (*User, error) {
+	err := db.Create(&u).Error
+
+	return u, err
+}
+
+func (u *User) Update(db *gorm.DB) error {
+	return db.Model(&User{}).Where("id = ? AND is_del = ?", u.Model.ID, 0).Save(u).Error
 }
