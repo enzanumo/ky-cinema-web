@@ -1,10 +1,10 @@
 package api
 
 import (
+	"github.com/enzanumo/ky-theater-web/internal/core/service"
 	"unicode/utf8"
 
 	"github.com/enzanumo/ky-theater-web/internal/model"
-	"github.com/enzanumo/ky-theater-web/internal/service"
 	"github.com/enzanumo/ky-theater-web/pkg/app"
 	"github.com/enzanumo/ky-theater-web/pkg/errcode"
 	"github.com/gin-gonic/gin"

@@ -19,28 +19,6 @@ type User struct {
 	IsAdmin  bool   `json:"is_admin"`
 }
 
-type UserFormated struct {
-	ID       int64  `json:"id"`
-	Nickname string `json:"nickname"`
-	Username string `json:"username"`
-	Status   int    `json:"status"`
-	IsAdmin  bool   `json:"is_admin"`
-}
-
-func (u *User) Format() *UserFormated {
-	if u.Model != nil {
-		return &UserFormated{
-			ID:       u.ID,
-			Nickname: u.Nickname,
-			Username: u.Username,
-			Status:   u.Status,
-			IsAdmin:  u.IsAdmin,
-		}
-	}
-
-	return nil
-}
-
 func (u *User) Get(db *gorm.DB) (*User, error) {
 	var user User
 	if u.Model != nil && u.Model.ID > 0 {

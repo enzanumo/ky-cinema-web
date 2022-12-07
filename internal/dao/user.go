@@ -1,4 +1,4 @@
-package jinzhu
+package dao
 
 import (
 	"strings"

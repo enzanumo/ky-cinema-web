@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"github.com/enzanumo/ky-theater-web/internal/model/migrate"
 	"strings"
 	"sync"
 	"time"
@@ -70,7 +71,15 @@ func newDBEngine() (*gorm.DB, error) {
 		db, err = gormOpenSqlite3(config)
 	}
 
+	if useMigrate() {
+		migrate.Run(db)
+	}
+
 	return db, err
+}
+
+func useMigrate() bool {
+	return true
 }
 
 func useMysql() bool {

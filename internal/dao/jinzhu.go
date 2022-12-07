@@ -2,7 +2,7 @@
 // Jinzhu is the primary developer of gorm so use his name as
 // pakcage name as a saluter.
 
-package jinzhu
+package dao
 
 import (
 	"github.com/Masterminds/semver/v3"
@@ -19,7 +19,7 @@ type dataServant struct {
 	core.UserManageService
 }
 
-func NewDataService() (core.DataService, core.VersionInfo) {
+func NewDataService() core.DataService {
 	// initialize CacheIndex if needed
 
 	db := conf.MustGormDB()
@@ -28,13 +28,7 @@ func NewDataService() (core.DataService, core.VersionInfo) {
 		WalletService:     newWalletService(db),
 		UserManageService: newUserManageService(db),
 	}
-	return ds, ds
-}
-
-func NewAuthorizationManageService() core.AuthorizationManageService {
-	return &authorizationManageServant{
-		db: conf.MustGormDB(),
-	}
+	return ds
 }
 
 func (s *dataServant) Name() string {

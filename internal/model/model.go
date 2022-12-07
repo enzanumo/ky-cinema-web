@@ -10,11 +10,10 @@ import (
 
 // Model 公共Model
 type Model struct {
-	ID         int64                 `gorm:"primary_key" json:"id"`
-	CreatedOn  int64                 `json:"created_on"`
-	ModifiedOn int64                 `json:"modified_on"`
-	DeletedOn  int64                 `json:"deleted_on"`
-	IsDel      soft_delete.DeletedAt `gorm:"softDelete:flag" json:"is_del"`
+	ID        int64 `gorm:"primary_key" json:"id"`
+	CreatedAt int64
+	UpdatedAt int64
+	IsDel     soft_delete.DeletedAt `gorm:"softDelete:flag" json:"is_del"`
 }
 
 type ConditionsT map[string]interface{}

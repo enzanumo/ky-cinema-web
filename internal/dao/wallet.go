@@ -1,4 +1,4 @@
-package jinzhu
+package dao
 
 import (
 	"github.com/enzanumo/ky-theater-web/internal/core"
