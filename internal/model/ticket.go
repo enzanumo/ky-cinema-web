@@ -4,13 +4,14 @@ import "time"
 
 //Schedule 场次
 type Schedule struct {
-	StartAt time.Time `gorm:"uniqueIndex:schedule_unique"`
-	RoomID  int64     `gorm:"uniqueIndex:schedule_unique"`
+	StartAt *time.Time
+	RoomID  int64
 }
 
 //Seat 一个场次中的一个座位 票的最小单位
 type Seat struct {
-	Schedule
+	StartAt *time.Time `gorm:"uniqueIndex:seat_unique"`
+	RoomID  int64      `gorm:"uniqueIndex:seat_unique"`
 	SeatIdx int64
 }
 
@@ -18,19 +19,20 @@ type Seat struct {
 type Ticket struct {
 	Seat
 	UserID   int64
-	ExpireAt time.Time
+	ExpireAt *time.Time
 }
 
 type TicketFormatted struct {
 	Ticket
 	Movie *Movie
-	EndAt time.Time
+	EndAt *time.Time
 }
 
 //TicketPlan 一次上映
 type TicketPlan struct {
-	Schedule
+	StartAt   *time.Time `gorm:"uniqueIndex:ticket_plan_unique"`
+	RoomID    int64      `gorm:"uniqueIndex:ticket_plan_unique"`
 	MovieID   int
-	EndAt     time.Time
+	EndAt     *time.Time
 	BasePrice Price
 }

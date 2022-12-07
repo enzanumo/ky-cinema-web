@@ -44,13 +44,10 @@ func NewRouter() *gin.Engine {
 		noAuthApi.GET("/user/profile", api.GetUserProfile)
 
 		// 获取电影信息
-		r.GET("/movies", api.Stub)
-
-		// 获取电影详情
-		r.GET("/movies/:id", api.Stub)
+		r.GET("/movies", api.GetMovieList)
 
 		// 获取电影排期
-		r.GET("/movies/:id/schedule", api.Stub)
+		r.GET("/movies/schedule", api.GetMovieSchedule)
 
 		// 查询场次余票
 		r.POST("/seats", api.Stub)

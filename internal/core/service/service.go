@@ -6,9 +6,9 @@ import (
 )
 
 var (
-	ds core.DataService
+	DS core.DataService
 )
 
 func Initialize() {
-	ds = dao.DataService()
+	DS = dao.DataService()
 }

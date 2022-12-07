@@ -11,8 +11,8 @@ import (
 // Model 公共Model
 type Model struct {
 	ID        int64 `gorm:"primary_key" json:"id"`
-	CreatedAt int64
-	UpdatedAt int64
+	CreatedAt *time.Time
+	UpdatedAt *time.Time
 	IsDel     soft_delete.DeletedAt `gorm:"softDelete:flag" json:"is_del"`
 }
 

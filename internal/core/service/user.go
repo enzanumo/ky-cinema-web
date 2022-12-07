@@ -62,7 +62,7 @@ const MAX_LOGIN_ERR_TIMES = 10
 
 // DoLogin 用户认证
 func DoLogin(ctx *gin.Context, param *AuthRequest) (*model.User, error) {
-	user, err := ds.GetUserByUsername(param.Username)
+	user, err := DS.GetUserByUsername(param.Username)
 	if err != nil {
 		return nil, errcode.UnauthorizedAuthNotExist
 	}
@@ -120,7 +120,7 @@ func ValidUsername(username string) error {
 	}
 
 	// 重复检查
-	user, _ := ds.GetUserByUsername(username)
+	user, _ := DS.GetUserByUsername(username)
 
 	if user.Model != nil && user.ID > 0 {
 		return errcode.UsernameHasExisted
@@ -147,7 +147,7 @@ func CheckPhoneCaptcha(phone, captcha string) *errcode.Error {
 
 // CheckPhoneExist 检测手机号是否存在
 func CheckPhoneExist(uid int64, phone string) bool {
-	u, err := ds.GetUserByPhone(phone)
+	u, err := DS.GetUserByPhone(phone)
 	if err != nil {
 		return false
 	}
@@ -183,7 +183,7 @@ func Register(username, password string) (*model.User, error) {
 		Status:   model.UserStatusNormal,
 	}
 
-	user, err := ds.CreateUser(user)
+	user, err := DS.CreateUser(user)
 	if err != nil {
 		return nil, err
 	}
@@ -193,7 +193,7 @@ func Register(username, password string) (*model.User, error) {
 
 // GetUserInfo 获取用户信息
 func GetUserInfo(param *AuthRequest) (*model.User, error) {
-	user, err := ds.GetUserByUsername(param.Username)
+	user, err := DS.GetUserByUsername(param.Username)
 
 	if err != nil {
 		return nil, err
@@ -207,7 +207,7 @@ func GetUserInfo(param *AuthRequest) (*model.User, error) {
 }
 
 func GetUserByID(id int64) (*model.User, error) {
-	user, err := ds.GetUserByID(id)
+	user, err := DS.GetUserByID(id)
 
 	if err != nil {
 		return nil, err
@@ -221,7 +221,7 @@ func GetUserByID(id int64) (*model.User, error) {
 }
 
 func GetUserByUsername(username string) (*model.User, error) {
-	user, err := ds.GetUserByUsername(username)
+	user, err := DS.GetUserByUsername(username)
 
 	if err != nil {
 		return nil, err
@@ -236,7 +236,7 @@ func GetUserByUsername(username string) (*model.User, error) {
 
 // UpdateUserInfo 更新用户信息
 func UpdateUserInfo(user *model.User) *errcode.Error {
-	if err := ds.UpdateUser(user); err != nil {
+	if err := DS.UpdateUser(user); err != nil {
 		return errcode.ServerError
 	}
 	return nil
@@ -244,11 +244,11 @@ func UpdateUserInfo(user *model.User) *errcode.Error {
 
 // GetUserWalletBills 获取用户账单列表
 func GetUserWalletBills(userID int64, offset, limit int) ([]*model.WalletStatement, int64, error) {
-	bills, err := ds.GetUserWalletBills(userID, offset, limit)
+	bills, err := DS.GetUserWalletBills(userID, offset, limit)
 	if err != nil {
 		return nil, 0, err
 	}
-	totalRows, err := ds.GetUserWalletBillCount(userID)
+	totalRows, err := DS.GetUserWalletBillCount(userID)
 	if err != nil {
 		return nil, 0, err
 	}

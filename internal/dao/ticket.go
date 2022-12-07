@@ -44,13 +44,13 @@ func (s *dataServant) LockSeat(seat *model.Seat, user *model.User) error {
 	} else {
 		return err
 	}
-	if time.Now().After(tck.ExpireAt) {
+	if time.Now().After(*tck.ExpireAt) {
 		ok = true
 	}
 
 	if ok {
 		tck.Seat = *seat
-		tck.ExpireAt = time.Now().Add(10 * time.Minute)
+		*tck.ExpireAt = time.Now().Add(10 * time.Minute)
 		s.db.Create(&tck)
 		return nil
 	}
@@ -73,6 +73,12 @@ func (s *dataServant) SetSeatPromotion(schedule *model.Schedule, seatIdxes []int
 func (s *dataServant) AddSchedule(sp *model.TicketPlan) error {
 	err := s.db.Create(sp).Error
 	return err
+}
+
+func (s *dataServant) GetMovieSchedule(movie *model.Movie) ([]*model.TicketPlan, error) {
+	res := []*model.TicketPlan{}
+	err := s.db.Where("movie_id = ?", movie.ID).Find(&res).Error
+	return res, err
 }
 
 func (s *dataServant) GetUserTickets(user *model.User) (tcks []*model.Ticket, err error) {

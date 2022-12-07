@@ -6,12 +6,11 @@ import (
 )
 
 func Run(db *gorm.DB) {
-	db.AutoMigrate(
-		&model.Movie{},
-		&model.Order{},
-		&model.Room{},
-		&model.Ticket{},
-		&model.User{},
-		&model.TicketPlan{},
-	)
+	db.AutoMigrate(&model.Movie{})
+	db.AutoMigrate(&model.Order{})
+	db.AutoMigrate(&model.Room{})
+	db.AutoMigrate(&model.Ticket{})
+	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.TicketPlan{})
+	panic("done")
 }

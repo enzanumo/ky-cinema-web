@@ -96,45 +96,18 @@ func (d *walletServant) HandlePostAttachmentBought(post *model.Post, user *model
 			UserID:          user.ID,
 			ChangeAmount:    -post.AttachmentPrice,
 			BalanceSnapshot: user.Balance - post.AttachmentPrice,
-			Reason:          "购买附件支出",
+			Reason:          "支出",
 		}).Error; err != nil {
 			return err
 		}
 
-		// 新增附件购买记录
+		// 新增购买记录
 		if err := tx.Create(&model.PostAttachmentBill{
 			PostID:     post.ID,
 			UserID:     user.ID,
 			PaidAmount: post.AttachmentPrice,
 		}).Error; err != nil {
 			return err
-		}
-
-		// 对附件主新增账单
-		income := int64(float64(post.AttachmentPrice) * AttachmentIncomeRate)
-		if income > 0 {
-			master := &model.User{
-				Model: &model.Model{
-					ID: post.UserID,
-				},
-			}
-			master, _ = master.Get(d.db)
-
-			if err := tx.Model(master).Update("balance", gorm.Expr("balance + ?", income)).Error; err != nil {
-				// 返回任何错误都会回滚事务
-				return err
-			}
-
-			// 新增账单
-			if err := tx.Create(&model.WalletStatement{
-				PostID:          post.ID,
-				UserID:          master.ID,
-				ChangeAmount:    income,
-				BalanceSnapshot: master.Balance + income,
-				Reason:          "出售附件收入",
-			}).Error; err != nil {
-				return err
-			}
 		}
 
 		// 返回 nil 提交事务
