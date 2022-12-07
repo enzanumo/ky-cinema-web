@@ -4,8 +4,8 @@ import "github.com/enzanumo/ky-theater-web/internal/model"
 
 type TicketService interface {
 	GetAvailableSeats(schedule *model.Schedule) ([]int8, error)
-	LockSeat(schedule *model.Schedule, user *model.User, seatIdx int64) error
-	GrantSeat(schedule *model.Schedule, user *model.User, seatIdx int64) error
+	LockSeat(seat *model.Seat, user *model.User) error
+	GrantSeat(seat *model.Seat) error
 	SetSeatPromotion(schedule *model.Schedule, seatIdxes []int64) error
 
 	AddSchedule(sp *model.TicketPlan) error

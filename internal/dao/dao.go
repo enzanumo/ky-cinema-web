@@ -23,10 +23,6 @@ func DataService() core.DataService {
 	return ds
 }
 
-var (
-	_ core.DataService = (*dataServant)(nil)
-)
-
 type dataServant struct {
 	db *gorm.DB
 }

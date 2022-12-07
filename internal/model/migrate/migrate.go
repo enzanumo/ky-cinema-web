@@ -10,7 +10,8 @@ func Run(db *gorm.DB) {
 		&model.Movie{},
 		&model.Order{},
 		&model.Room{},
-		&model.Schedule{},
+		&model.Ticket{},
 		&model.User{},
+		&model.TicketPlan{},
 	)
 }

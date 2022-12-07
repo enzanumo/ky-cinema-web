@@ -5,7 +5,7 @@ import "time"
 //Schedule 场次
 type Schedule struct {
 	StartAt time.Time `gorm:"uniqueIndex:schedule_unique"`
-	RoomID  int       `gorm:"uniqueIndex:schedule_unique"`
+	RoomID  int64     `gorm:"uniqueIndex:schedule_unique"`
 }
 
 //Seat 一个场次中的一个座位 票的最小单位
@@ -17,9 +17,8 @@ type Seat struct {
 //Ticket 关系，这个座位卖给了谁
 type Ticket struct {
 	Seat
-	UserID      int64
-	OrigPrice   Price
-	ActualPrice Price
+	UserID   int64
+	ExpireAt time.Time
 }
 
 type TicketFormatted struct {
