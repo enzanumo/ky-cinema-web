@@ -13,5 +13,4 @@ type UserManageService interface {
 	GetUsersByKeyword(keyword string) ([]*model.User, error)
 	CreateUser(user *model.User) (*model.User, error)
 	UpdateUser(user *model.User) error
-	IsFriend(userID int64, friendID int64) bool
 }

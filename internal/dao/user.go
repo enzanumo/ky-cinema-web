@@ -5,22 +5,13 @@ import (
 
 	"github.com/enzanumo/ky-theater-web/internal/core"
 	"github.com/enzanumo/ky-theater-web/internal/model"
-	"gorm.io/gorm"
 )
 
 var (
 	_ core.UserManageService = (*userManageServant)(nil)
 )
 
-type userManageServant struct {
-	db *gorm.DB
-}
-
-func newUserManageService(db *gorm.DB) core.UserManageService {
-	return &userManageServant{
-		db: db,
-	}
-}
+type userManageServant = dataServant
 
 func (s *userManageServant) GetUserByID(id int64) (*model.User, error) {
 	user := &model.User{
@@ -72,9 +63,4 @@ func (s *userManageServant) CreateUser(user *model.User) (*model.User, error) {
 
 func (s *userManageServant) UpdateUser(user *model.User) error {
 	return user.Update(s.db)
-}
-
-func (s *userManageServant) IsFriend(userId int64, friendId int64) bool {
-	// just true now
-	return true
 }

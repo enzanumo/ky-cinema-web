@@ -1,27 +1,14 @@
 package dao
 
 import (
-	"github.com/enzanumo/ky-theater-web/internal/core"
 	"github.com/enzanumo/ky-theater-web/internal/model"
 	"github.com/enzanumo/ky-theater-web/pkg/types"
 	"gorm.io/gorm"
 )
 
-var (
-	_ core.WalletService = (*walletServant)(nil)
-)
-
 var AttachmentIncomeRate = 0.8
 
-type walletServant struct {
-	db *gorm.DB
-}
-
-func newWalletService(db *gorm.DB) core.WalletService {
-	return &walletServant{
-		db: db,
-	}
-}
+type walletServant = dataServant
 
 func (d *walletServant) GetRechargeByID(id int64) (*model.WalletRecharge, error) {
 	recharge := &model.WalletRecharge{
