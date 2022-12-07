@@ -41,9 +41,15 @@ func NewRouter() *gin.Engine {
 	// 无鉴权路由组
 	noAuthApi := r.Group("/")
 	{
-
 		// 获取用户基本信息
 		noAuthApi.GET("/user/profile", api.GetUserProfile)
+
+		r.GET("/movies", api.Stub)
+
+		r.GET("/movies/:id", api.Stub)
+		r.GET("/movies/:id/schedule", api.Stub)
+
+		r.POST("/seats", api.Stub)
 	}
 
 	// 鉴权路由组
@@ -65,8 +71,22 @@ func NewRouter() *gin.Engine {
 		// 修改昵称
 		authApi.POST("/user/nickname", api.ChangeNickname)
 
+		authApi.POST("/orders/create", api.Stub)
+		authApi.POST("/orders/pay", api.Stub)
+		authApi.GET("/orders", api.Stub)
+		authApi.GET("/orders/details/:id", api.Stub)
+
+		authApi.GET("/user/info")
+
 		// 管理·禁言/解封用户
-		adminApi.POST("/admin/user/status", api.ChangeUserStatus)
+		adminApi.POST("/movies", api.Stub)
+		adminApi.GET("/schedule", api.Stub)
+		adminApi.POST("/schedule", api.Stub)
+		adminApi.POST("/schedule/promotion", api.Stub)
+
+		adminApi.GET("/user", api.Stub)
+		adminApi.POST("/user", api.Stub)
+		adminApi.POST("/user/:id", api.Stub)
 	}
 
 	// 默认404
